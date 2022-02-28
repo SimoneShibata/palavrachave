@@ -1,0 +1,1 @@
+export const words = ['canoa', 'lontra', 'gato', 'monte', 'terra'];
