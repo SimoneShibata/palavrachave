@@ -17,6 +17,7 @@ const Home: NextPage = () => {
   const [success, setSuccess] = useState(false);
   const [failure, setFailure] = useState(false);
   const [lettersBlack, setLettersBlack] = useState<string[]>([]);
+  const [previousWords, setPreviousWords] = useState<string[]>([]);
 
   useEffect(() => {
     setWord(randomWord().toLocaleUpperCase());
@@ -84,6 +85,7 @@ const Home: NextPage = () => {
           response
         ]);
         setFailure(!wordCorrect);
+        setPreviousWords(prevState => ([...prevState, word]));
       } else {
         setAttempts([
           ...attempts,
@@ -98,6 +100,16 @@ const Home: NextPage = () => {
     }
   }
 
+  const getWord = () => {
+
+    const newWord = randomWord().toLocaleUpperCase();
+    if (previousWords.includes(newWord)) {
+      getWord();
+    } else {
+      setWord(newWord);
+    }
+  }
+
   const reset = () => {
     setSuccess(false);
     setFailure(false);
@@ -106,6 +118,8 @@ const Home: NextPage = () => {
     setAttempts([]);
     setCurrentAttempt([]);
     setLettersBlack([]);
+
+    getWord();
   }
 
   return (
