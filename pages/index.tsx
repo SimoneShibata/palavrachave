@@ -16,6 +16,7 @@ const Home: NextPage = () => {
   const [attempts, setAttempts] = useState<Array<TAttemptCharacter>[]>([]);
   const [success, setSuccess] = useState(false);
   const [failure, setFailure] = useState(false);
+  const [lettersBlack, setLettersBlack] = useState<string[]>([]);
 
   useEffect(() => {
     setWord(randomWord().toLocaleUpperCase());
@@ -41,7 +42,7 @@ const Home: NextPage = () => {
     newValue[focus] = newCharacter;
     setCurrentAttempt(newValue);
     const nextBox = focus + 1;
-    if (nextBox <= word.length - 1 && newCharacter.character !== 'APAGAR') {
+    if (nextBox <= word.length - 1 && character !== 'apagar') {
       setFocus(nextBox);
     }
   }
@@ -62,6 +63,10 @@ const Home: NextPage = () => {
 
         if (wordArray[index] === box.character) {
           color = 'green';
+        }
+
+        if (color === 'black') {
+          setLettersBlack(prevState => ([...prevState, box.character.toLocaleLowerCase()]));
         }
 
         return ({
@@ -131,7 +136,11 @@ const Home: NextPage = () => {
           </div>
         )}
         <Attempts word={word} numberAttempt={numberAttempt} />
-        <Keyboard onClick={handleClickKeyboard} onClickEnter={handleClickEnter} />
+        <Keyboard 
+          onClick={handleClickKeyboard} 
+          onClickEnter={handleClickEnter}
+          lettersBlack={lettersBlack}
+        />
       </div>
     </div>
   )
