@@ -76,13 +76,14 @@ const Home: NextPage = () => {
       });
 
       setCurrentAttempt([]);
+      const wordCorrect = response.every(attempt => attempt.color === 'green');
       const restAttempts = word.length - attempt;
       if (restAttempts < 0) {
         setAttempts([
           ...attempts,
           response
         ]);
-        setFailure(true)
+        setFailure(!wordCorrect);
       } else {
         setAttempts([
           ...attempts,
@@ -90,7 +91,7 @@ const Home: NextPage = () => {
           ...Array(restAttempts).fill([])
         ]);
       }
-      const wordCorrect = response.every(attempt => attempt.color === 'green');
+      
       setSuccess(wordCorrect);
       setNumberAttempt(attempt);
       setFocus(0);
@@ -104,6 +105,7 @@ const Home: NextPage = () => {
     setFocus(0);
     setAttempts([]);
     setCurrentAttempt([]);
+    setLettersBlack([]);
   }
 
   return (
